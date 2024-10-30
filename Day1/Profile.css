@@ -9,13 +9,13 @@ body {
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #533f00;
     margin-top: 20px;
 }
 
 h2 {
-    color: #444;
-    border-bottom: 2px solid #ddd;
+    color: #533f00;
+    border-bottom: 2px solid #533f00;
     padding-bottom: 5px;
 }
 
@@ -25,7 +25,7 @@ section {
     background-color: #ffe398;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(94, 75, 0, 0.1);
 }
 
 /* Container for circular mask */
