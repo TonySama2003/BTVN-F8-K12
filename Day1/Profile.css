@@ -1,0 +1,102 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff3be;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+section {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #ffe398;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for circular mask */
+.image-container {
+    width: 150px; /* Set the desired width and height for the circular area */
+    height: 150px;
+    overflow: hidden; /* Hide overflow to create the circular crop */
+    border-radius: 50%; /* Make the container circular */
+    margin: 10px auto;
+}
+
+/* Style for the image */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the circle without distortion */
+    display: block;
+}
+
+b {
+    font-size: 1.2em;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+i {
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
+}
+
+u {
+    font-size: 1em;
+    display: block;
+    margin-top: 5px;
+    color: #555;
+}
+
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+/* Contact section styling */
+section:last-of-type p {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Divider styling */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
