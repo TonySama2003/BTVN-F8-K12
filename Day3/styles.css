@@ -42,6 +42,10 @@ main {
     align-items: center;
     border-radius: 15px;
     box-shadow: 10px 20px 20px 0px rgb(211, 211, 211);
+    transition: all ease-in-out 0.3s;
+}
+main:hover{
+    box-shadow: 10px 20px 20px 0px rgb(234, 234, 234);
 }
 .content {
     width: 723px;
@@ -89,7 +93,7 @@ main {
     border: none;
     border-radius: 10px;
     box-shadow: 2px 5px 2px 0px #1C57EE;
-    transition: all ease-in-out 0.3s
+    transition: all ease-in-out 0.3s;
 }
 .AddToCart:hover{
     background-color: #1C57EE;
