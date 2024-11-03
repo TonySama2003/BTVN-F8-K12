@@ -53,7 +53,7 @@ main:hover{
     margin-top: 82px;
     margin-bottom: 82px;
 }
-.left-content{
+.leftContent{
     width: 249px;
     height: 223px;
     img{
@@ -62,7 +62,7 @@ main:hover{
         object-fit: cover;
     }
 }
-.right-content{
+.rightContent{
     width: 442px;
     height: 466px;
     margin-left: 32px;
@@ -83,7 +83,7 @@ main:hover{
     font-size: 48px;
     font-weight: 700;
 }
-.AddToCart{
+.addToCart{
     background-color: #4788E9;
     color: white;
     font-size: 18px;
@@ -95,7 +95,7 @@ main:hover{
     box-shadow: 2px 5px 2px 0px #1C57EE;
     transition: all ease-in-out 0.3s;
 }
-.AddToCart:hover{
+.addToCart:hover{
     background-color: #1C57EE;
 }
 .lamp{
