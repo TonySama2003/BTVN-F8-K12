@@ -1,0 +1,126 @@
+html {
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    color: #191847;
+    height: 100%;
+}
+.shipping{
+    background-color: #191847;
+    color:  white;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 112px;
+    height: 29px;
+}
+section{
+    align-items: center;
+    margin-bottom: 32px;
+}
+h1 {
+    
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    text-transform: capitalize;
+}
+body {
+    background-color: aliceblue;
+    height: 100%; 
+    margin: 0; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+main {
+    background-color: white;
+    width: 887px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: 10px 20px 20px 0px rgb(119, 119, 119);
+}
+.content {
+    width: 723px;
+    display: flex;
+    margin-top: 82px;
+    margin-bottom: 82px;
+}
+.left-content{
+    width: 249px;
+    height: 223px;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+.right-content{
+    width: 442px;
+    margin-left: 32px;
+    p{
+        margin-top: 0;
+        color: #949494;
+    }
+}
+.sale{
+    text-decoration: line-through;
+    font-size: 18px;
+}
+.vnd{
+    display: flex;
+    width: 193px;
+    height: 72px;
+    align-items: center;
+    font-size: 48px;
+    font-weight: 700;
+}
+.AddToCart{
+    background-color: #4788E9;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+    height: 59px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 5px 2px 0px #1C57EE;
+    transition: all ease-in-out 0.5s
+}
+.AddToCart:hover{
+    background-color: #1C57EE;
+}
+.lamp{
+    width: 13px;
+    height: 13px;
+    margin-top: 4px;
+    background-color: #00D98B;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.buttons{
+    height: 64px;
+    display: flex;
+    
+}
+.addCart{
+   border-color:  #949494;
+   background-color: white;
+   width: 213px;
+   height: 64px;
+   border-radius: 10px;
+   cursor: pointer;
+   margin-bottom: 16px;
+   img{
+         width: 32px;
+         height: 32px;
+         vertical-align: middle;
+   }
+   
+}
+.addCart + .addCart {
+    margin-left: 16px;
+}
