@@ -41,7 +41,7 @@ main {
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    box-shadow: 10px 20px 20px 0px rgb(211, 211, 211);
+    box-shadow: 5px 10px 15px 5px rgb(211, 211, 211);
     transition: all ease-in-out 0.3s;
 }
 main:hover{
