@@ -201,6 +201,7 @@ section p{
 /* USER CARD */
 main{
   display: flex ;
+  flex-wrap: wrap;
   gap:31px;
   justify-content: space-between;
   align-items: center;
@@ -240,7 +241,11 @@ main a:hover {
   transform: scale(1.1);
 }
 
-main a:hover ~ a {
+main:hover a:not(:hover) {
   opacity: 0.5;
+}
+
+main a {
+  opacity: 1;
 }
 /* USER CARD END */
