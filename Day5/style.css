@@ -14,7 +14,7 @@ html {
   
 body {
   background-color: #E6E6E4;
-  width: 100%;
+  width: 1520px;
   margin: 0;
   display: inline-block;
 }
@@ -149,6 +149,9 @@ section p{
   }
   span{
     margin: 0px 0px 20px 20px;
+  }
+  i{
+    color: #FFB988;
   }
 }
   /* BANNER END */
