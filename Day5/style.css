@@ -86,7 +86,7 @@ h2{
   line-height: 82.5px;
   font-weight: 600;
 }
-.right-content img{
+.avatar{
   width: 500px;
   height: 500px;
   border-radius: 50%;
@@ -118,7 +118,7 @@ section p{
   height: 50px;
   margin: 225px 0px 225px 450px;
 }
-.play i{
+.play{
   font-size: 80px;
   color: #1F1D2A;
   margin-right: 10px;
@@ -231,5 +231,16 @@ main{
     margin-top: 6px;
     margin-left: 20px;
   }
+}
+main a {
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+main a:hover {
+  transform: scale(1.1);
+}
+
+main a:hover ~ a {
+  opacity: 0.5;
 }
 /* USER CARD END */
