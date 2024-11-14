@@ -54,6 +54,7 @@ header nav {
     display: flex;
     justify-content: center;
     margin-right: 0px;
+
     ul {
         display: flex;
         justify-content: space-between;
@@ -143,6 +144,7 @@ main {
 
 .content {
     margin-bottom: 38px;
+
     h1 {
         font-size: 58px;
         line-height: 68px;
@@ -186,6 +188,7 @@ main {
     padding: 12px;
     color: #FFFFFF;
     font-size: 18px;
+
     img {
         width: 64px;
         height: 64px;
@@ -210,12 +213,14 @@ main {
     color: #5F5B53;
     gap: 28px;
 }
-h2{
+
+h2 {
     font-family: "Sen", sans-serif;
     font-size: 44px;
     font-weight: 700;
     line-height: 54px;
-    small{
+
+    small {
         font-size: 18px;
         font-weight: 400;
         font-family: "Poppins", sans-serif;
