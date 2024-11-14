@@ -115,8 +115,6 @@ main {
     margin-top: 390px;
     margin-left: -170px;
     display: inline-block;
-    width: 270px;
-    height: 244px;
     padding: 24px;
     border-radius: 12px;
     box-shadow: 0px 16px 32px 0px #0000000D;
@@ -124,7 +122,9 @@ main {
 
 .left-content ul {
     li {
+        width: 228px;
         display: flex;
+        justify-content: flex-start;
         align-items: center;
         height: 56px;
         gap: 4px;
