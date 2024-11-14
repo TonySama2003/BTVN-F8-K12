@@ -16,7 +16,7 @@ html {
 }
 
 body {
-    width: 1440px;
+    width: 1485px;
     margin: 0 auto;
     padding: 36px 135px 65px;
     background-color: #FFFCF4;
@@ -100,6 +100,7 @@ main {
 .left-content {
     width: 570px;
     height: 685px;
+    position: relative;
 }
 
 #main-photo {
@@ -112,12 +113,13 @@ main {
     z-index: 1;
     position: absolute;
     background-color: #FFFFFF;
-    margin-top: 390px;
-    margin-left: -170px;
+    right: 0;
+    bottom: 48px;
     display: inline-block;
     padding: 24px;
     border-radius: 12px;
     box-shadow: 0px 16px 32px 0px #0000000D;
+
     li {
         width: 228px;
         display: flex;
@@ -126,7 +128,8 @@ main {
         gap: 4px;
         margin-bottom: 14px;
     }
-    p{
+
+    p {
         font-size: 18px;
         font-weight: 600;
         line-height: 30px;
@@ -187,7 +190,8 @@ main {
     padding: 12px 0px;
     color: #FFFFFF;
     font-size: 18px;
-    gap:5px;
+    gap: 5px;
+
     img {
         width: 64px;
         height: 64px;
@@ -218,7 +222,8 @@ h2 {
     font-size: 44px;
     font-weight: 700;
     line-height: 54px;
-    color:#171100;  
+    color: #171100;
+
     small {
         font-size: 18px;
         font-weight: 400;
