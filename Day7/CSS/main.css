@@ -109,6 +109,7 @@ main {
 }
 
 .left-content ul {
+    z-index: 1;
     position: absolute;
     background-color: #FFFFFF;
     margin-top: 390px;
