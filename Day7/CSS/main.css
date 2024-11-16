@@ -237,9 +237,9 @@ h2 {
 /* couser */
 
 .contain-courses {
+    display: inline-block;
     width: 1170px;
-    height: 645px; 
-    margin: 200px 0;
+    padding: 200px 0;
 }
 .courses-top {
     height: 124px;
