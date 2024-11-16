@@ -7,7 +7,6 @@ a {
 
 html {
     background-color: #FFFFFF;
-
     color: #171100;
     font-size: 18px;
     font-family: "Poppins", sans-serif;
@@ -16,6 +15,7 @@ html {
 }
 
 body {
+    height: 900px;
     width: 1485px;
     margin: 0 auto;
     padding: 36px 135px 65px;
@@ -234,3 +234,159 @@ h2 {
 
 
 /* MAIN END*/
+/* couser */
+
+.contain-courses {
+    width: 1170px;
+    height: 645px; 
+    margin: 200px 0;
+}
+.courses-top {
+    height: 124px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 55px;
+}
+
+.courses-content {
+    width: 100%;
+}
+.courses-content .title-courses {
+    font-size: 32px;
+    font-weight: 700;
+    color: #171100;
+    font-family: 'Sen', sans-serif;
+    line-height: 48px;
+}
+
+.courses-content .courses-description {
+    font-size: 16px;
+    margin-top: 16px;
+    color: #5f5b53;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    line-height: 30px;
+}
+.courses-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.courses-buttons .course-img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+.courses-buttons .course-img-inactive {
+    margin-right: 10px;
+}
+.courses-main {
+    display: flex;
+    gap:30px;
+}
+
+.course-card {
+    width: 370px;
+    height: 466px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+}
+.course-card:hover {
+    border:none;
+    box-shadow: 0px 18px 36px 0px #0000000D;
+}
+.course-card .course-img {
+    width: 370px;
+    height: 278px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+    
+}
+
+.course-info {
+    height: 150px;
+    margin: 16px 22px 22px;
+}
+
+.course-info .course-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.course-top .course-title {
+    flex: 1; 
+    font-size: 18px;
+    font-weight: 600;
+    color: #171100;
+    font-family: 'Poppins', sans-serif;
+    line-height: 30px;
+    margin-bottom: 6px;
+}
+
+.course-top .course-rating {
+    display: flex;
+    align-items: center;
+    color: rgb(228, 199, 35);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.course-rating img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 5px;
+}
+.course-info .course-description{
+    width: 326px;
+    height: 52px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5f5b53;
+    margin-bottom: 12px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 26px;
+}
+.course-info .course-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+
+.course-bottom .course-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #171100;
+    font-family: 'Poppins', sans-serif;
+    line-height: 30px;
+    margin: 0; 
+}
+.course-bottom .course-button {
+    width: 118px;
+    height: 50px;
+    background-color: #171100;
+    border: none; 
+    border-radius: 25px; 
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    cursor: pointer; 
+}
+.course-bottom .course-button:hover {
+    background-color: #FFB900;
+}
+
+
+
+/* couser END */
