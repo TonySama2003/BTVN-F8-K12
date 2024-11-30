@@ -1,6 +1,7 @@
-*{
+* {
     box-sizing: border-box;
 }
+
 /* TRai Tim */
 body {
     display: flex;
@@ -9,17 +10,19 @@ body {
     height: 100vh;
     margin: 0;
 }
-.Heart-shaped{
+
+.Heart-shaped {
     background-color: #F00;
     position: relative;
     width: 100px;
     height: 100px;
     transform: rotate(-45deg);
     margin: 50px;
-     animation: heart 3s ease-in-out infinite;
+    animation: heart 3s ease-in-out infinite;
 }
+
 .Heart-shaped::before,
-.Heart-shaped::after{
+.Heart-shaped::after {
     content: "";
     position: absolute;
     width: 100px;
@@ -27,25 +30,31 @@ body {
     background-color: red;
     border-radius: 50%;
 }
-.Heart-shaped::before{
+
+.Heart-shaped::before {
     top: -50px;
     left: 0;
 }
-.Heart-shaped::after{
+
+.Heart-shaped::after {
     left: 50px;
     top: 0;
 }
+
 @keyframes heart {
     0% {
-        transform: rotate(-45deg) scale(1.5); 
+        transform: rotate(-45deg) scale(1.5);
     }
+
     50% {
-        transform: rotate(-45deg) scale(2); 
+        transform: rotate(-45deg) scale(2);
     }
+
     100% {
-        transform: rotate(-45deg) scale(1.5); 
+        transform: rotate(-45deg) scale(1.5);
     }
 }
+
 /* TRai Tim END */
 
 
@@ -60,22 +69,22 @@ body {
 .arrow {
     position: absolute;
     transform: translate(0, -50%);
-    animation: arrow 8s linear infinite;
+    animation: arrow 15s linear infinite;
 }
 
 @keyframes arrow {
     0% {
         top: 0;
         left: 0;
-        transform: rotate(0) translate(-10%, -50%);
+        transform: translate(-10%, -50%);
     }
 
     24% {
         top: 0;
         left: 100%;
-        transform: rotate(0) translate(-85%, -50%);
+        transform: translate(-90%, -50%);
     }
-    
+
     25% {
         top: 0;
         left: 100%;
@@ -83,15 +92,15 @@ body {
     }
 
     49% {
-        top: 100%;
+        top: 100;
         left: 100%;
-        transform: rotate(90deg) translate(-95%, 40%);
+        transform: rotate(90deg) translate(-90%, 50%);
     }
 
     50% {
         top: 100%;
         left: 100%;
-        transform: rotate(180deg) translate(90%, 50%);
+        transform: rotate(180deg) translate(-90%, 50%);
     }
 
     74% {
@@ -103,7 +112,7 @@ body {
     75% {
         top: 100%;
         left: 0;
-        transform: rotate(270deg) translate(100%, -40%);
+        transform: rotate(270deg) translate(90%, -40%);
     }
 
     99% {
@@ -118,4 +127,5 @@ body {
         transform: rotate(360deg) translate(-10%, -50%);
     }
 }
+
 /* MUI TEN END */

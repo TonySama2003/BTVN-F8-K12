@@ -1,0 +1,144 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+ul,
+ol,
+hr,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.container {
+    width: 1170px;
+    max-width: 100%;
+    padding: 0 125px;
+    gap: 40px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/* header */
+header .menu {
+    column-gap: 24px;
+}
+
+header .menu-item {
+    position: relative;
+    padding: 24px 12px;
+}
+
+/* header .menu-item:hover::after {
+    content: "";
+    position: absolute;
+    background-color: aqua;
+    left: 0;
+    top: 100%;
+    width: 160px;
+    height: 26px;
+} */
+header .menu-item:hover .menu__sub-menu {
+    display: block;
+}
+
+
+header .menu-item:before {
+    content: "";
+    display: inline-block;
+    width: 45px;
+    height: 2px;
+    background-color: red;
+    position: absolute;
+    bottom: 10px;
+    border-radius: 10px;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.5s linear;
+
+}
+
+header .menu__sub-menu {
+    display: none;
+    z-index: 2;
+    left: 0;
+    background-color: aquamarine;
+    position: absolute;
+    top: 100%;
+    width: 160px;
+    /* padding-top: 24px; */
+    /* margin-top: 24px; */
+}
+
+
+
+header .menu-item:hover::before {
+    transform: scale(1);
+} 
+
+.fake{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0,0,0.3);
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin:0;
+} 
+
+header .fake:hover {
+    display: none;
+}
+
+#block{
+    display: grid;
+    grid-template-rows: repeat(8,20px);
+    grid-template-columns: repeat(1, 150px);
+    grid-auto-flow: column;
+    gap: 5px;
+    p{
+        color: #080808;
+        font-size: 16px;
+        font-weight: 600;
+        width: 150px;
+    }
+}
+.item {
+    font-size: 14px;
+    color: #747474;
+    width: 150px;
+}
+.sub-menu-item{
+    display: flex;
+    flex-direction: row;
+}
+.left-sub-menu,
+.main-sub-menu,
+.right-sub-menu{
+    border: 1px solid #e0e0e0;
+    padding: 30px 40px;
+}
+.left-sub-menu{
+    width: 3004px;
+}
