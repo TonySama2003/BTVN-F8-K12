@@ -81,9 +81,7 @@ header .menu-item:before {
 
 header .menu__sub-menu {
     display: none;
-    z-index: 2;
     left: 0;
-    background-color: aquamarine;
     position: absolute;
     top: 100%;
     width: 160px;
