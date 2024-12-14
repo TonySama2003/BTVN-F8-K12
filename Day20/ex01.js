@@ -8,14 +8,14 @@ const students = [
 ];
 
 const result = {
-    highest: students[0],
-    lowest: students[0],
     group: {
         A: [],
         B: [],
         C: [],
         D: [],
     },
+    highest: students[0],
+    lowest: students[0],
 };
 
 for (const student of students) {
