@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .action-btn {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 12px 24px;
+            background-color: #f5f5f5;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #ddd;
+        }
+
+        .modal {
+            position: relative;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal-content h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .action-btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="action-btn">Rút Thẻ</button>
+    <div class="modal"></div>
+
+
+
+    <script src="./ex03.js"></script>
+</body>
+
+</html>

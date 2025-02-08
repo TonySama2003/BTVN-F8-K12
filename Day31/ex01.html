@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Danh sách Công Việc</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f4f7;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            main {
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                border-radius: 12px;
+                width: 400px;
+            }
+
+            h1.page-heading {
+                text-align: center;
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            input[type="text"] {
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 16px;
+                outline: none;
+                transition: all 0.3s ease;
+            }
+
+            input[type="text"]:focus {
+                border-color: #1d1d1d;
+            }
+
+            button {
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                color: #6d6d6d;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            button:hover {
+                background-color: #cfcfcf;
+            }
+
+            button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+
+            .task-list {
+                margin-top: 20px;
+                list-style: none;
+                padding: 0;
+            }
+
+            .task-item {
+                background-color: #f9f9f9;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+                transition: background-color 0.3s ease;
+            }
+
+            .task-item:hover {
+                background-color: #f1f1f1;
+            }
+
+            .task-item.completed {
+                opacity: 0.6;
+                background-color: #e0f7fa;
+            }
+
+            .task-item.completed .task-title {
+                text-decoration: line-through;
+                color: #aaa;
+            }
+
+            .task-title {
+                font-size: 16px;
+                color: #333;
+            }
+
+            .task-btn {
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+
+            .task-btn:hover {
+                color: #d2d2d2;
+            }
+
+            .task-btn.delete {
+                color: #e74c3c;
+            }
+
+            .task-btn.delete:hover {
+                color: #c0392b;
+            }
+
+            .task-btn.complete {
+                color: #2ecc71;
+            }
+
+            .task-btn.complete:hover {
+                color: #27ae60;
+            }
+
+            .empty {
+                text-align: center;
+                color: #888;
+                font-size: 18px;
+            }
+
+            .none {
+                display: none;
+            }
+
+            .filter-buttons {
+                padding-top: 20px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .filter-buttons button {
+                padding: 10px;
+                width: 30%;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1 class="page-heading">Thêm công việc mới</h1>
+            <form id="todo-form" action="" class="todo-form">
+                <input
+                    type="text"
+                    id="todo-input"
+                    class="input"
+                    placeholder="Thêm công việc tại đây"
+                    spellcheck="false"
+                />
+                <button id="submit" class="submit-btn">Thêm công việc</button>
+            </form>
+            
+            <div class="filter-buttons">
+                <button id="task-menu" class="submit-btn">Danh sách công việc</button>
+                <button id="filter-done" class="submit-btn">Công việc hoàn thành</button>
+                <button id="filter-not-done" class="submit-btn">Công việc chưa hoàn thành</button>
+            </div>
+
+            <ul id="task-list" class="task-list"></ul>
+            <ul id="completed-tasks" class="task-list none"></ul>
+            <ul id="incomplete-tasks" class="task-list none"></ul>
+        </main>
+
+        <script src="./ex01.js"></script>
+    </body>
+</html>

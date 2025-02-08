@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Sản Phẩm</title>
+    <style>
+        table, th, td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            padding: 8px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .new_table {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .render {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh Sách Sản Phẩm</h1>
+    <table id="table">
+        <tr>
+            <th>STT</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Giá</th>
+            <th>Thêm Giỏ Hàng</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td data-sp="Sản phẩm 1">Sản phẩm 1</td>
+            <td data-price="1000">1000 VND</td>
+            <td>
+                <input type="number" name="number" value="1" min="1" />
+                <button class="btn">Thêm vào giỏ</button>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td data-sp="Sản phẩm 2">Sản phẩm 2</td>
+            <td data-price="2000">2000 VND</td>
+            <td>
+                <input type="number" name="number" value="1" min="1" />
+                <button class="btn">Thêm vào giỏ</button>
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td data-sp="Sản phẩm 3">Sản phẩm 3</td>
+            <td data-price="3000">3000 VND</td>
+            <td>
+                <input type="number" name="number" value="1" min="1" />
+                <button class="btn">Thêm vào giỏ</button>
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td data-sp="Sản phẩm 4">Sản phẩm 4</td>
+            <td data-price="4000">4000 VND</td>
+            <td>
+                <input type="number" name="number" value="1" min="1" />
+                <button class="btn">Thêm vào giỏ</button>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Giỏ Hàng</h2>
+    <div class="render"></div>
+
+    <script src="./ex09.js"></script>
+</body>
+</html>

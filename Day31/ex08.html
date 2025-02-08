@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chia Hóa Đơn</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f8f9;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            transition: border 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button.btn {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button.btn:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Chia Hóa Đơn</h1>
+
+        <form id="bill-form">
+            <label for="total">Tổng hóa đơn</label>
+            <input type="text" name="total" id="total" placeholder="Nhập tổng hóa đơn" />
+
+            <label for="people">Số người chia</label>
+            <input type="text" name="people" id="people" placeholder="Nhập số người chia" />
+
+            <label for="tip">Tiền tip (nếu có)</label>
+            <input type="text" name="tip" id="tip" placeholder="Nhập tiền tip nếu có" />
+
+            <button class="btn" type="button">Tính tiền</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="./ex08.js"></script>
+</body>
+</html>
