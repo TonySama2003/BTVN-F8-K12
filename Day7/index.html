@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo QR từ mã - Offline</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#0f172a}
+.wrap{max-width:1100px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 24px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;text-align:center;font-size:26px}
+.sub{text-align:center;color:#64748b;margin-bottom:20px}
+textarea{width:100%;min-height:230px;border:1px solid #cbd5e1;border-radius:12px;padding:14px;font-size:16px;line-height:1.5;resize:vertical;outline:none}
+textarea:focus{border-color:#2563eb}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+button{border:0;border-radius:10px;padding:12px 16px;font-size:15px;font-weight:700;cursor:pointer}
+.primary{background:#2563eb;color:white}.pdf{background:#dc2626;color:white}.clear{background:#64748b;color:white}
+button:hover{opacity:.88}
+.status{margin-top:12px;font-weight:700}
+
+/* Nút điều khiển luôn nằm trên QR khi đang chạy */
+body:has(#grid.running) .controls{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  z-index:10000;
+  background:rgba(255,255,255,.96);
+  padding:8px;
+  border-radius:14px;
+  box-shadow:0 5px 24px rgba(0,0,0,.18);
+}
+/* ===== Giao diện gọn khi chạy QR ===== */
+.add-code-toggle{
+  display:none;
+}
+
+body:has(#grid.running) .input-card{
+  position:fixed;
+  top:12px;
+  left:12px;
+  z-index:10001;
+  width:auto;
+  padding:0;
+  background:transparent;
+  box-shadow:none;
+  pointer-events:none;
+}
+
+body:has(#grid.running) .input-card h1,
+body:has(#grid.running) .input-card .sub,
+body:has(#grid.running) .input-card > textarea,
+body:has(#grid.running) .input-card > .small,
+body:has(#grid.running) .input-card > .status{
+  display:none!important;
+}
+
+body:has(#grid.running) .add-code-toggle{
+  display:block;
+  pointer-events:auto;
+  border:0;
+  border-radius:10px;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  background:#2563eb;
+  color:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.22);
+}
+
+body:has(#grid.running) .add-code-panel{
+  display:none;
+  pointer-events:auto;
+  margin-top:7px;
+  width:min(300px,78vw);
+  padding:10px;
+  background:rgba(255,255,255,.97);
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,.22);
+}
+
+body:has(#grid.running) .add-code-panel.open{
+  display:block;
+}
+
+body:has(#grid.running) .add-code-panel textarea#input{
+  display:block!important;
+  width:100%;
+  min-height:90px;
+  max-height:130px;
+  font-size:13px;
+  padding:8px;
+  box-sizing:border-box;
+}
+
+body:has(#grid.running) .add-code-panel .small{
+  display:none!important;
+}
+
+body:has(#grid.running) .add-code-panel .add-panel-buttons{
+  display:flex;
+  gap:6px;
+  margin-top:7px;
+}
+
+body:has(#grid.running) .add-code-panel .add-panel-buttons button{
+  padding:7px 9px;
+  font-size:12px;
+}
+
+body:has(#grid.running) .controls{
+  position:fixed;
+  left:50%;
+  bottom:12px;
+  transform:translateX(-50%);
+  z-index:10000;
+  margin:0;
+  padding:5px;
+  gap:5px;
+  background:rgba(255,255,255,.94);
+  border-radius:12px;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+}
+
+body:has(#grid.running) .controls button{
+  padding:7px 9px;
+  font-size:12px;
+}
+
+body:has(#grid.running) .input-card{
+  position:relative;
+  z-index:10001;
+}
+
+/* Khi chạy QR: ẩn khu vực thêm mã, chỉ giữ thanh nút điều khiển nhỏ gọn */
+body:has(#grid.running) .input-card h1,
+body:has(#grid.running) .input-card .sub,
+body:has(#grid.running) .input-card > textarea,
+body:has(#grid.running) .input-card > .small,
+body:has(#grid.running) .input-card > .status{
+  display:none!important;
+}
+
+body:has(#grid.running) .input-card{
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  pointer-events:none;
+}
+
+body:has(#grid.running) .controls{
+  pointer-events:auto;
+  gap:6px;
+  margin:0;
+  padding:6px;
+}
+
+body:has(#grid.running) .controls button{
+  padding:8px 10px;
+  font-size:13px;
+}
+.grid{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:20px}
+.item{width:100%;max-width:520px;min-height:285px;position:relative;background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:18px 18px 18px 62px;text-align:center;break-inside:avoid}
+.item:nth-child(even){background:#e2e8f0}
+.item:nth-child(odd){background:#fff}
+.qr{display:flex;justify-content:center;align-items:center}
+.number{position:absolute;left:14px;top:10px;font-size:22px;font-weight:800;color:#111827;width:40px;text-align:left}
+.qr canvas{width:230px;height:230px;image-rendering:pixelated}
+.code{font-weight:700;font-size:15px;margin-top:8px;word-break:break-all}
+.small{font-size:13px;color:#64748b;margin-top:8px}
+@media(max-width:480px){
+  .wrap{padding:10px}
+  .card{padding:14px}
+  .item{max-width:100%}
+  .qr canvas{width:210px;height:210px}
+}
+
+/* Chế độ chạy QR từ dưới lên */
+#grid.running{
+  position:fixed;
+  left:50%;
+  top:8vh;
+  transform:translateX(-50%);
+  width:min(560px,94vw);
+  height:84vh;
+  overflow:hidden;
+  display:block;
+  z-index:1000;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  padding:0;
+}
+#grid.running .item{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:min(500px,92%);
+  margin:0;
+  display:block;
+  opacity:0;
+}
+#grid.running .item.qr-stream{
+  animation:qrStream 6s linear var(--qr-delay,0s) both;
+}
+@keyframes qrStream{
+  0%{opacity:0;transform:translateX(-50%) translateY(100vh)}
+  8%{opacity:1}
+  92%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(-120vh)}
+}
+
+/* Một ô nhập mã duy nhất, dùng cả lúc mở trang và khi bấm "Thêm / Dán mã" */
+.add-code-panel{
+  margin-top:12px;
+  width:100%;
+}
+.add-code-panel textarea#input{
+  width:100%;
+  min-height:150px;
+  max-height:260px;
+  padding:12px;
+  font-size:15px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  box-sizing:border-box;
+}
+.add-code-panel .add-panel-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+body:not(:has(#grid.running)) .add-code-toggle{
+  display:none;
+}
+body:not(:has(#grid.running)) .add-code-panel .add-panel-buttons .clear{
+  display:none;
+}
+
+
+/* Nút Tạo lại QR chỉ xuất hiện khi panel nhập mã đang mở */
+.add-code-panel .add-panel-buttons .primary{
+  display:none;
+}
+.add-code-panel.open .add-panel-buttons .primary{
+  display:inline-block;
+}
+
+@media print{
+  body{background:#fff}
+  .controls,.input-card,.small,.status{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .grid{
+    display:flex!important;flex-direction:column;align-items:center;gap:8mm;
+    margin:0;width:100%;position:static!important;transform:none!important;
+    overflow:visible!important;height:auto!important;background:transparent!important
+  }
+  .item{
+    width:100%;max-width:none;border:0;padding:2mm 2mm 2mm 14mm;
+    background:#fff!important;min-height:65mm;position:relative!important;
+    opacity:1!important;transform:none!important;display:block!important;
+    break-inside:avoid;page-break-inside:avoid
+  }
+  .number{left:3mm;top:2mm;transform:none;font-size:12pt;width:10mm}
+  .qr canvas{width:55mm;height:55mm;display:block;margin:auto}
+  .code{font-size:11pt;margin-top:2mm}
+  @page{size:A4 portrait;margin:8mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card input-card">
+    <h1>📱 Tạo mã QR từ mã</h1>
+    <div class="sub">Chạy trực tiếp bằng file</div>
+    <div class="small" style="text-align:center;margin-bottom:12px">
+    </div>
+    <button class="add-code-toggle" onclick="toggleAddCode()">➕ Thêm / Dán mã</button>
+    <div class="add-code-panel" id="addCodePanel">
+      <textarea id="input" placeholder="Dán mã vào đây, mỗi mã một dòng. Có thể gồm chữ + số, ví dụ:
+842611321672
+842611678489
+842611497445
+842611476499"></textarea>
+      <div class="add-panel-buttons">
+        <button class="primary" onclick="rebuildQR()">🔲 Tạo lại QR</button>
+        <button class="clear" onclick="toggleAddCode(false)">Đóng</button>
+      </div>
+    </div>
+    <div class="buttons controls">
+      <button class="primary" onclick="rebuildQR()">🔲 Tạo QR</button>
+      <button class="pdf" onclick="printPDF()">📄 Xuất PDF</button>
+      <button style="background:#7c3aed;color:white" onclick="runQR()">⬆️ Chạy QR từ dưới lên</button>
+      <button style="background:#f59e0b;color:white" onclick="stopQR()">⏹️ Dừng chạy</button>
+      <button class="clear" onclick="clearAll()">🗑️ Xóa</button>
+    </div>
+    <div class="small" style="margin-top:12px">
+    </div>
+    <div id="status" class="status">Chưa có mã.</div>
+    <div id="countStatus" class="small" style="margin-top:6px;font-weight:700;color:#2563eb">Tổng số mã đã điền: 0</div>
+    <div class="small">Mã đã được lọc trùng hiện tổng số mã có thể thêm mã khi đang chạy , 
+    sau khi thêm mã xong bấm chạy sẽ tiếp tục chạy từ đoạn mã đang dừng lúc bắt đầu thêm mã
+    </div>
+  </div>
+  <div id="grid" class="grid"></div>
+</div>
+
+<script>
+/* QR encoder Version 1-L, numeric mode.
+   Chỉ dành cho mã 12 số (QR này chứa tối đa 41 chữ số).
+   Toàn bộ thuật toán nằm trong file, không tải thư viện ngoài. */
+
+const EXP=new Uint8Array(512), LOG=new Uint8Array(256);
+const encoder = new TextEncoder();
+(function(){
+  let x=1;
+  for(let i=0;i<255;i++){
+    EXP[i]=x; LOG[x]=i; x<<=1; if(x&256)x^=0x11d;
+  }
+  for(let i=255;i<512;i++) EXP[i]=EXP[i-255];
+})();
+
+function gfMul(a,b){
+  if(a===0||b===0)return 0;
+  return EXP[LOG[a]+LOG[b]];
+}
+function rsECC(data,n){
+  let gen=[1];
+  for(let i=0;i<n;i++){
+    const ng=new Array(gen.length+1).fill(0);
+    for(let j=0;j<gen.length;j++){
+      ng[j]^=gen[j];
+      ng[j+1]^=gfMul(gen[j],EXP[i]);
+    }
+    gen=ng;
+  }
+  const rem=new Array(n).fill(0);
+  for(const b of data){
+    const f=b^rem[0];
+    for(let j=0;j<n-1;j++) rem[j]=rem[j+1];
+    rem[n-1]=0;
+    for(let j=0;j<n;j++) rem[j]^=gfMul(gen[j+1],f);
+  }
+  return rem;
+}
+function bitsToBytes(bits){
+  const out=[];
+  for(let i=0;i<bits.length;i+=8){
+    let v=0;
+    for(let j=0;j<8;j++)v=(v<<1)|(bits[i+j]||0);
+    out.push(v);
+  }
+  return out;
+}
+function qrCodewords(s){
+  // QR Version 1-L, byte mode. Capacity is 17 bytes for L.
+  // Use UTF-8 bytes; shipment/order codes are normally ASCII.
+  const bytes=Array.from(encoder.encode(s));
+  if(bytes.length>17){
+    throw new Error("Mã quá dài cho QR Version 1.");
+  }
+  let bits=[0,1,0,0]; // byte mode
+  for(let i=7;i>=0;i--)bits.push((bytes.length>>i)&1);
+  for(const b of bytes)for(let i=7;i>=0;i--)bits.push((b>>i)&1);
+  const cap=152;
+  if(bits.length>cap)throw new Error("Mã quá dài.");
+  for(let i=0;i<Math.min(4,cap-bits.length);i++)bits.push(0);
+  while(bits.length%8)bits.push(0);
+  let data=bitsToBytes(bits);
+  const pads=[0xec,0x11]; let k=0;
+  while(data.length<19)data.push(pads[k++%2]);
+  return data.concat(rsECC(data,7));
+}
+function bchFormat(data){
+  let d=data<<10, g=0x537;
+  while(d.toString(2).length>=g.toString(2).length)
+    d ^= g << (d.toString(2).length-g.toString(2).length);
+  return ((data<<10)|d)^0x5412;
+}
+function maskFn(mask,r,c){
+  switch(mask){
+    case 0:return (r+c)%2===0;
+    case 1:return r%2===0;
+    case 2:return c%3===0;
+    case 3:return (r+c)%3===0;
+    case 4:return (Math.floor(r/2)+Math.floor(c/3))%2===0;
+    case 5:return (r*c)%2+(r*c)%3===0;
+    case 6:return ((r*c)%2+(r*c)%3)%2===0;
+    default:return ((r*c)%3+(r+c)%2)%2===0;
+  }
+}
+function makeMatrix(s,mask=0){
+  const n=21, m=Array.from({length:n},()=>Array(n).fill(null));
+  function finder(r,c){
+    for(let dr=-1;dr<=7;dr++)for(let dc=-1;dc<=7;dc++){
+      const rr=r+dr,cc=c+dc;
+      if(rr<0||rr>=n||cc<0||cc>=n)continue;
+      m[rr][cc]=(dr>=0&&dr<=6&&dc>=0&&dc<=6&&
+        (dr===0||dr===6||dc===0||dc===6||(dr>=2&&dr<=4&&dc>=2&&dc<=4)));
+    }
+  }
+  finder(0,0);finder(0,n-7);finder(n-7,0);
+  for(let i=8;i<n-8;i++){m[6][i]=i%2===0;m[i][6]=i%2===0}
+  const fmt=bchFormat((1<<3)|mask);
+  for(let i=0;i<15;i++){
+    const bit=((fmt>>i)&1)===1;
+    if(i<6)m[i][8]=bit;
+    else if(i<8)m[i+1][8]=bit;
+    else m[n-15+i][8]=bit;
+  }
+  for(let i=0;i<15;i++){
+    const bit=((fmt>>i)&1)===1;
+    if(i<8)m[8][n-i-1]=bit;
+    else if(i<9)m[8][15-i]=bit;
+    else m[8][15-i-1]=bit;
+  }
+  m[n-8][8]=true;
+
+  const words=qrCodewords(s), data=[];
+  for(const b of words)for(let i=7;i>=0;i--)data.push((b>>i)&1);
+  let row=n-1,inc=-1,k=0;
+  for(let col0=n-1;col0>0;col0-=2){
+    let col=col0;if(col<=6)col--;
+    while(true){
+      for(const c of [col,col-1]){
+        if(m[row][c]===null){
+          let bit=k<data.length?data[k++]:0;
+          if(maskFn(mask,row,c))bit^=1;
+          m[row][c]=!!bit;
+        }
+      }
+      row+=inc;
+      if(row<0||row>=n){row-=inc;inc=-inc;break}
+    }
+  }
+  return m;
+}
+const qrMatrixCache = new Map();
+
+function drawQR(canvas,s){
+  let m=qrMatrixCache.get(s);
+  if(!m){
+    m=makeMatrix(s,0);
+    qrMatrixCache.set(s,m);
+  }
+  const n=21, quiet=4, scale=8;
+  canvas.width=(n+quiet*2)*scale;
+  canvas.height=canvas.width;
+  const ctx=canvas.getContext("2d");
+  ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#000";
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)
+    if(m[r][c])ctx.fillRect((c+quiet)*scale,(r+quiet)*scale,scale,scale);
+}
+function getCodes(){
+  const raw=document.getElementById("input").value.trim();
+  const arr=raw.split(/[\s,;]+/).map(x=>x.trim()).filter(Boolean);
+  const valid=arr.filter(x=>x.length > 0 && new TextEncoder().encode(x).length <= 17);
+  // Mỗi mã chỉ được tính và hiển thị một lần.
+  return [...new Set(valid)];
+}
+
+function updateCodeCount(){
+  const count=getCodes().length;
+  const el=document.getElementById("countStatus");
+  if(el) el.textContent=`Tổng số mã đã điền: ${count}`;
+}
+function generate(){
+  const codes=getCodes(),grid=document.getElementById("grid");
+  updateCodeCount();
+  grid.innerHTML="";
+  if(!codes.length){
+    document.getElementById("status").textContent="⚠️ Không tìm thấy mã 12 số hợp lệ.";
+    return;
+  }
+  codes.forEach((code,index)=>{
+    const item=document.createElement("div");item.className="item";
+
+    const number=document.createElement("div");
+    number.className="number";
+    number.textContent=(index+1)+".";
+
+    const box=document.createElement("div");
+    box.className="qr";
+
+    const canvas=document.createElement("canvas");
+    drawQR(canvas,code);
+    box.appendChild(canvas);
+
+    const label=document.createElement("div");
+    label.className="code";
+    label.textContent=code;
+
+    item.append(number,box,label);
+    grid.appendChild(item);
+  });
+  document.getElementById("status").textContent=`✅ Đã tạo ${codes.length} mã QR (chữ + số).`;
+}
+function rebuildQR(){
+  const grid=document.getElementById("grid");
+
+  // Nếu đang tạm dừng, giữ nguyên mốc đã dừng để có thể tiếp tục sau khi thêm mã.
+  const wasPaused = qrIsPaused && qrPausedElapsed > 0;
+  const savedElapsed = qrPausedElapsed;
+  const savedIndex = qrPausedIndex;
+
+  qrRunToken++;
+  if(qrRunTimer){
+    clearTimeout(qrRunTimer);
+    qrRunTimer=null;
+  }
+
+  grid.classList.remove("running");
+  grid.querySelectorAll(".item").forEach(item=>{
+    item.classList.remove("qr-stream");
+    item.style.removeProperty("animation");
+    item.style.removeProperty("animation-play-state");
+    item.style.removeProperty("--qr-delay");
+    item.style.removeProperty("transform");
+    item.style.removeProperty("opacity");
+  });
+
+  generate();
+
+  if(wasPaused){
+    qrIsPaused=true;
+    qrPausedElapsed=savedElapsed;
+    qrPausedIndex=savedIndex;
+    qrPausedTotal=document.querySelectorAll("#grid .item").length;
+    document.getElementById("status").textContent =
+      `⏸️ Đã thêm mã. Đang giữ vị trí dừng tại mã số ${savedIndex+1}. Bấm "Chạy QR" để tiếp tục.`;
+  }else{
+    qrIsPaused=false;
+    qrPausedElapsed=0;
+    qrPausedIndex=0;
+    qrPausedTotal=document.querySelectorAll("#grid .item").length;
+    qrRunStartTime=0;
+  }
+
+  toggleAddCode(false);
+}
+
+function printPDF(){
+  // Đảm bảo danh sách QR hiện tại đã được tạo trước khi in.
+  generate();
+
+  const items = document.querySelectorAll("#grid .item");
+  if(!items.length){
+    document.getElementById("status").textContent = "⚠️ Chưa có mã để xuất PDF.";
+    return;
+  }
+
+  // Tạm thoát chế độ chạy QR để CSS @media print hoạt động ổn định.
+  const grid = document.getElementById("grid");
+  const wasRunning = grid.classList.contains("running");
+
+  qrRunToken++;
+  if(qrRunTimer){
+    clearTimeout(qrRunTimer);
+    qrRunTimer = null;
+  }
+
+  grid.classList.remove("running");
+  grid.querySelectorAll(".item").forEach(item=>{
+    item.classList.remove("qr-stream");
+    item.style.removeProperty("animation");
+    item.style.removeProperty("animation-play-state");
+    item.style.removeProperty("--qr-delay");
+    item.style.removeProperty("transform");
+    item.style.removeProperty("opacity");
+  });
+
+  qrIsPaused = false;
+  qrPausedElapsed = 0;
+  qrRunStartTime = 0;
+
+  document.getElementById("status").textContent =
+    `📄 Chuẩn bị xuất PDF ${items.length} mã QR...`;
+
+  // Chờ trình duyệt render lại toàn bộ canvas QR rồi mới mở hộp thoại in.
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      window.print();
+      setTimeout(()=>{
+        document.getElementById("status").textContent =
+          `✅ Đã chuẩn bị ${items.length} mã QR để xuất PDF.`;
+      }, 300);
+    });
+  });
+}
+
+let qrRunToken=0;
+let qrRunTimer=null;
+let qrSavedScrollY=0;
+let qrRunStartTime=0;
+let qrPausedElapsed=0;
+let qrIsPaused=false;
+
+// Tiến độ thật của luồng QR.
+// currentIndex: mã đang ở vị trí đầu timeline.
+// currentOffset: số mili-giây đã trôi qua trong mã đó.
+let qrPausedIndex=0;
+let qrPausedOffset=0;
+
+function toggleAddCode(force){
+  const panel=document.getElementById("addCodePanel");
+  const open=typeof force==="boolean" ? force : !panel.classList.contains("open");
+  panel.classList.toggle("open",open);
+}
+
+function rebuildQR(){
+  const grid=document.getElementById("grid");
+
+  // Chụp lại tiến độ trước khi generate() xóa danh sách cũ.
+  const keepProgress = qrIsPaused;
+  const savedIndex = qrPausedIndex;
+  const savedOffset = qrPausedOffset;
+
+  qrRunToken++;
+  if(qrRunTimer){
+    clearTimeout(qrRunTimer);
+    qrRunTimer=null;
+  }
+
+  grid.classList.remove("running");
+  grid.querySelectorAll(".item").forEach(item=>{
+    item.classList.remove("qr-stream");
+    item.style.removeProperty("animation");
+    item.style.removeProperty("animation-play-state");
+    item.style.removeProperty("--qr-delay");
+    item.style.removeProperty("transform");
+    item.style.removeProperty("opacity");
+  });
+
+  generate();
+
+  const count=document.querySelectorAll("#grid .item").length;
+
+  if(keepProgress && count){
+    // Nếu danh sách mới ngắn hơn vị trí cũ thì dừng ở mã cuối.
+    qrPausedIndex=Math.min(savedIndex,count-1);
+    qrPausedOffset=Math.max(0,Math.min(savedOffset,6000));
+
+    // elapsed là timeline tương ứng với mã đang dừng.
+    qrPausedElapsed=qrPausedIndex*1000+qrPausedOffset;
+    qrIsPaused=true;
+
+    document.getElementById("status").textContent =
+      `⏸️ Đã thêm mã. Giữ tại mã số ${qrPausedIndex+1}. Bấm "Chạy QR" để tiếp tục.`;
+  }else{
+    qrIsPaused=false;
+    qrPausedElapsed=0;
+    qrPausedIndex=0;
+    qrPausedOffset=0;
+    qrRunStartTime=0;
+  }
+
+  toggleAddCode(false);
+}
+
+function runQR(){
+  if(!document.querySelector("#grid .item")) generate();
+
+  const grid=document.getElementById("grid");
+  const items=[...grid.querySelectorAll(".item")];
+  if(!items.length)return;
+
+  const itemDuration=6000;
+  const stagger=1000;
+
+  qrRunToken++;
+  const token=qrRunToken;
+
+  if(qrRunTimer) clearTimeout(qrRunTimer);
+
+  // Khi đang pause, tiếp tục chính xác tại mã + offset đã lưu.
+  const isResume=qrIsPaused;
+
+  if(!isResume){
+    qrSavedScrollY=window.scrollY;
+    qrPausedIndex=0;
+    qrPausedOffset=0;
+    qrPausedElapsed=0;
+  }
+
+  const index=Math.min(Math.max(qrPausedIndex,0),items.length-1);
+  const offset=Math.max(0,Math.min(qrPausedOffset,itemDuration));
+
+  grid.classList.add("running");
+  toggleAddCode(false);
+
+  const elapsed=index*stagger+offset;
+  qrRunStartTime=performance.now()-elapsed;
+  qrIsPaused=false;
+
+  items.forEach((item,i)=>{
+    item.classList.remove("qr-stream");
+    item.style.removeProperty("animation");
+    item.style.removeProperty("animation-play-state");
+
+    // Chỉ tạo timeline từ vị trí đang tiếp tục.
+    item.style.setProperty("--qr-delay",`${i*stagger-elapsed}ms`);
+  });
+
+  void grid.offsetWidth;
+
+  items.forEach(item=>{
+    item.classList.add("qr-stream");
+    item.style.animationPlayState="running";
+  });
+
+  document.getElementById("status").textContent =
+    isResume
+      ? `▶️ Tiếp tục từ mã số ${index+1}...`
+      : `▶️ Đang chạy ${items.length} mã QR từ dưới lên...`;
+
+  const totalTime=itemDuration+(items.length-1)*stagger+400;
+  const remaining=Math.max(0,totalTime-elapsed);
+
+  qrRunTimer=setTimeout(()=>{
+    if(token!==qrRunToken)return;
+
+    grid.classList.remove("running");
+
+    items.forEach(item=>{
+      item.classList.remove("qr-stream");
+      item.style.removeProperty("animation");
+      item.style.removeProperty("--qr-delay");
+      item.style.removeProperty("transform");
+      item.style.removeProperty("opacity");
+      item.style.removeProperty("animation-play-state");
+    });
+
+    qrRunTimer=null;
+    qrIsPaused=false;
+    qrPausedElapsed=0;
+    qrPausedIndex=0;
+    qrPausedOffset=0;
+
+    window.scrollTo(0,qrSavedScrollY);
+
+    document.getElementById("status").textContent =
+      `✅ Đã chạy hết ${items.length} mã QR.`;
+  },remaining);
+}
+
+function stopQR(){
+  if(!document.querySelector("#grid.running")) return;
+
+  qrRunToken++;
+
+  if(qrRunTimer){
+    clearTimeout(qrRunTimer);
+    qrRunTimer=null;
+  }
+
+  // Tính timeline chính xác tại thời điểm bấm Dừng.
+  const elapsed=Math.max(
+    0,
+    performance.now()-qrRunStartTime
+  );
+
+  const count=document.querySelectorAll("#grid .item").length;
+  const maxElapsed=6000+Math.max(0,count-1)*1000+400;
+  const safeElapsed=Math.min(elapsed,maxElapsed);
+
+  // Mỗi mã bắt đầu cách nhau 1 giây.
+  // Giữ lại mã đang là tâm điểm của timeline và phần thời gian trong mã đó.
+  qrPausedIndex=Math.min(
+    Math.max(Math.floor(safeElapsed/1000),0),
+    Math.max(count-1,0)
+  );
+  qrPausedOffset=Math.min(
+    Math.max(safeElapsed-qrPausedIndex*1000,0),
+    6000
+  );
+  qrPausedElapsed=safeElapsed;
+  qrIsPaused=true;
+
+  const grid=document.getElementById("grid");
+
+  // Quan trọng: giữ animation paused, không rebuild DOM.
+  grid.querySelectorAll(".item.qr-stream").forEach(item=>{
+    item.style.animationPlayState="paused";
+  });
+
+  document.getElementById("status").textContent =
+    `⏹️ Đã dừng tại mã số ${qrPausedIndex+1}. Thêm mã nếu cần, sau đó bấm Chạy QR để tiếp tục.`;
+
+  toggleAddCode(false);
+}
+
+function clearAll(){
+  stopQR();
+  qrIsPaused=false;
+  qrPausedElapsed=0;
+  qrPausedIndex=0;
+  qrPausedOffset=0;
+  document.getElementById("input").value="";
+  toggleAddCode(false);
+  document.getElementById("grid").innerHTML="";
+  document.getElementById("status").textContent="Chưa có mã.";
+}
+
+function clearAll(){
+  stopQR();
+  qrIsPaused=false;
+  qrPausedElapsed=0;
+  qrPausedIndex=0;
+  qrPausedTotal=0;
+  document.getElementById("input").value="";
+  updateCodeCount();
+  toggleAddCode(false);
+  document.getElementById("grid").innerHTML="";
+  document.getElementById("status").textContent="Chưa có mã.";
+}
+</script>
+</body>
+</html>
